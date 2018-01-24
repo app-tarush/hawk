@@ -21,23 +21,23 @@ exports.schedule = function (req, res) {
         }).then(function (response) {
             var metric = new Metric(job.attrs._id, response.data);
             var indexName = job.attrs.data.index;
+            var type = job.attrs.data.type;
             es.indexExists(indexName).then(function (exists) {
                 if (!exists) {
                     return es.createIndex(indexName).then(function () {
-                        if (job.attrs.data.responseSchemaMapping === null || job.attrs.data.responseSchemaMapping === undefined) {
+                        var mapping = JSON.parse(job.attrs.data.responseSchemaMapping);
+                        if (Object.keys(mapping).length === 0) {
                             console.log("response schema mapping not defined!");
+                        } else {
+                            es.addMapping(indexName, type, mapping);
                         }
                     });
                 }
             }).then(function () {
-                return es.addDocument(indexName, job.attrs.data.type, metric);
+                return es.addDocument(indexName, type, metric);
             }).catch(function (error) {
                 console.log(error);
             });
-            // es.addDocument(indexName, job.attrs.data.type, metric)
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     });
         }).catch(function (error) {
             console.log(error);
         });

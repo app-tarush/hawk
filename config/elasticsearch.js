@@ -28,4 +28,10 @@ exports.indexExists = function (indexName) {
     })
 };
 
-// module.exports = client;
+exports.addMapping = function (indexName, type, schema) {
+    return client.indices.putMapping({
+        index: indexName,
+        type: type,
+        body: schema
+    })
+};
