@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules/*
+
+# dotenv environment variables file
+.env
+
+# mongo-data directory
+mongo-data/*
+
+# intellij ide files
+.idea/*

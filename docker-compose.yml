@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  kibana:
+    image: kibana
+    ports:
+      - 5601:5601
+
+  mongodb:
+    image: mongo:3.6.2
+    restart: always
+    container_name: mongodb
+    volumes:
+      - ./mongo-data/:/data/db
+      - ./mongo-config/:/data/configdb
+    ports:
+      - 27017:27017
+  scheduler:
+    build: .
+    restart: always
+    environment:
+      - VAULT_RID
+      - VAULT_SID
+      - DB_ADDR=mongodb://mongodb:27017
+      - DB_COLL=agenda
+      - PORT=3001
+    links:
+      - mongodb
+    expose:
+      - 3001
