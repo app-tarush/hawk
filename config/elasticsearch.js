@@ -1,9 +1,8 @@
 const elasticsearch = require('elasticsearch');
 
-//TODO configure according to env - dev or prod!
 var client = new elasticsearch.Client(
     {
-        host: 'localhost:9200',
+        host: process.env.ES_HOST + ':' + process.env.ES_PORT,
         log: 'trace'
     }
 );

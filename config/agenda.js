@@ -1,12 +1,11 @@
 const Agenda = require("agenda");
 
-//TODO configure according to env - dev or prod!
 var agenda = new Agenda(
     {
         db:
             {
-                address: 'localhost:27017/agenda',
-                collection: 'agendaJobs'
+                address: process.env.AGENDA_HOST + ':' + process.env.AGENDA_PORT + '/' + process.env.AGENDA_DB,
+                collection: process.env.AGENDA_COLLECTION
             }
     }
 );

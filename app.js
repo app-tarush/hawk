@@ -3,6 +3,7 @@ var path = require("path");
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require("morgan");
+require("dotenv").load();
 
 // routes specific modules
 var job = require("./routes/job");
